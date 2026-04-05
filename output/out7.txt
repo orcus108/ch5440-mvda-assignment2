@@ -1,0 +1,83 @@
+Data loaded: 98 rows (Kutner CH14TA03).
+
+=== Data Summary ===
+  n = 98 individuals
+  Y=1 (disease): 31,   Y=0 (no disease): 67
+  Sector 1: 59,  Sector 2: 39
+  Upper SES (ref): 38,  Middle: 24,  Lower: 36
+
+=== Design Matrix (first 5 rows) ===
+  [Intercept, Age, SES_mid, SES_low, Sector]
+     1    33     0     0     0
+     1    35     0     0     0
+     1     6     0     0     0
+     1    60     0     0     0
+     1    18     0     1     0
+
+=== Newton-Raphson Iterations ===
+  Iter  b0         b1(age)    b2(mid)    b3(low)    b4(sec)    Log-Lik       
+  ------------------------------------------------------------------------
+  1     -1.8120    0.0222     0.3038     -0.1660    1.2681     -67.928424    
+  2     -2.2520    0.0287     0.3959     -0.2801    1.5374     -51.209296    
+  3     -2.3118    0.0297     0.4086     -0.3046    1.5741     -50.537802    
+  4     -2.3129    0.0298     0.4088     -0.3053    1.5747     -50.527079    
+  5     -2.3129    0.0298     0.4088     -0.3053    1.5747     -50.527075    
+  Converged at iteration 6  (||delta|| = 1.00e-13)
+
+=== Estimated Model Parameters ===
+  logit(pi) = b0 + b1*Age + b2*SES_mid + b3*SES_low + b4*Sector
+
+  Parameter              Estimate    Std Err     z-stat   Odds Ratio
+  --------------------------------------------------------------------
+  b0 (intercept)          -2.3129     0.6426    -3.5994       0.0990
+  b1 (Age)                 0.0298     0.0135     2.2032       1.0302
+  b2 (SES mid)             0.4088     0.5990     0.6824       1.5050
+  b3 (SES low)            -0.3053     0.6041    -0.5053       0.7369
+  b4 (Sector)              1.5747     0.5016     3.1393       4.8295
+
+  Final Log-Likelihood = -50.527075
+
+=== Predicted Probabilities (first 20 observations) ===
+  Obs   Y     Age    SES_m  SES_l  Sect   pi_hat     Pred 
+  -------------------------------------------------------
+  1     0     33     0      0      0      0.2090     0    
+  2     0     35     0      0      0      0.2190     0    
+  3     0     6      0      0      0      0.1058     0    
+  4     0     60     0      0      0      0.3710     0    
+  5     1     18     0      1      0      0.1108     0    
+  6     0     26     0      1      0      0.1365     0    
+  7     0     6      0      1      0      0.0802     0    
+  8     1     31     1      0      0      0.2725     0    
+  9     1     26     1      0      0      0.2440     0    
+  10    0     37     1      0      0      0.3093     0    
+  11    0     23     0      0      0      0.1640     0    
+  12    0     23     0      0      0      0.1640     0    
+  13    0     27     0      0      0      0.1810     0    
+  14    1     9      0      0      0      0.1145     0    
+  15    1     37     0      0      1      0.5897     1    
+  16    1     22     0      0      1      0.4791     0    
+  17    1     67     0      0      1      0.7782     1    
+  18    0     8      0      0      1      0.3775     0    
+  19    1     6      0      0      1      0.3636     0    
+  20    1     15     0      0      1      0.4275     0    
+  ... (showing first 20 of 98)
+
+  Classification accuracy (threshold=0.5): 71.4%
+
+=== Model Significance (Likelihood Ratio Test vs Null) ===
+  Null log-likelihood  = -61.1588  (intercept only)
+  Model log-likelihood = -50.5271  (full model)
+  G^2 = 21.2635  (chi-sq, df=4)
+  p-value = 0.000281
+
+=== Interpretation ===
+  b1 (Age)        > 0  => older individuals have higher disease odds
+  b2 (SES mid)  sign(+0.4088) => middle SES vs upper SES
+  b3 (SES low)  sign(-0.3053) => lower  SES vs upper SES (ref: upper)
+  b4 (Sector 2) > 0  => sector 2 has substantially higher disease odds
+  Note: b3(SES low) = -0.3053 (negative => lower SES has lower odds than
+  upper SES after adjusting for age and sector — verify col mapping with textbook)
+
+  Odds ratio for Sector 2 vs Sector 1 = exp(b4) = 4.8295
+  Odds ratio for Middle vs Upper SES   = exp(b2) = 1.5050
+  Odds ratio for Lower vs Upper SES    = exp(b3) = 0.7369

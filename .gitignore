@@ -1,0 +1,17 @@
+# LaTeX build artifacts
+report/*.aux
+report/*.log
+report/*.out
+report/*.toc
+report/*.synctex.gz
+
+# MATLAB
+*.asv
+*.m~
+
+# Project-internal files
+CLAUDE.md
+TODO.md
+
+# macOS
+.DS_Store

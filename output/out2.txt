@@ -1,0 +1,130 @@
+=== (a) Mixture vs Conventional Regression ===
+  In conventional polynomial regression, predictors X1, X2, ... are
+  independent and can take any values in their ranges. An intercept (b0)
+  is always included, and the design matrix columns are linearly independent.
+
+  In MIXTURE regression:
+   - The components must sum to 1: x1 + x2 + x3 = 1  (mixture constraint)
+   - If an intercept were added, the intercept column (all 1s) would equal
+     x1+x2+x3, making the design matrix singular (linear dependency).
+   - Therefore, the intercept is OMITTED and the model is parameterized
+     in terms of the mixture components directly (Scheffe polynomial).
+   - The design space is a simplex (equilateral triangle for 3 components).
+   - All standard regression formulas still apply EXCEPT intercept-related
+     adjustments (e.g., corrected SS must account for the absence of intercept
+     in the X matrix, but we still center about the grand mean for R^2).
+
+=== (b) Design Matrix X (15x6), Y vector ===
+  Columns: [x1, x2, x3, x1*x2, x1*x3, x2*x3]
+  X = 
+                         1                         0                         0                         0                         0                         0
+                         1                         0                         0                         0                         0                         0
+                       0.5                       0.5                         0                      0.25                         0                         0
+                       0.5                       0.5                         0                      0.25                         0                         0
+                       0.5                       0.5                         0                      0.25                         0                         0
+                         0                         1                         0                         0                         0                         0
+                         0                         1                         0                         0                         0                         0
+                         0                       0.5                       0.5                         0                         0                      0.25
+                         0                       0.5                       0.5                         0                         0                      0.25
+                         0                       0.5                       0.5                         0                         0                      0.25
+                         0                         0                         1                         0                         0                         0
+                         0                         0                         1                         0                         0                         0
+                       0.5                         0                       0.5                         0                      0.25                         0
+                       0.5                         0                       0.5                         0                      0.25                         0
+                       0.5                         0                       0.5                         0                      0.25                         0
+
+  Y = 
+  Columns 1 through 6
+
+                        11                      12.4                        15                      14.8                      16.1                       8.8
+
+  Columns 7 through 12
+
+                        10                        10                       9.7                      11.8                      16.8                        16
+
+  Columns 13 through 15
+
+                      17.7                      16.4                      16.6
+
+=== (c) Estimated Parameters ===
+  b1 (x1)              =    11.700000
+  b2 (x2)              =     9.400000
+  b3 (x3)              =    16.400000
+  b12 (x1*x2)          =    19.000000
+  b13 (x1*x3)          =    11.400000
+  b23 (x2*x3)          =    -9.600000
+
+=== (d & f) Sum of Squares (Matrix vs Summation) ===
+  SST (corrected total)            134.8560   (summation:   134.8560)
+  SSR (regression)                 128.2960   (summation:   128.2960)
+  SSE (residual)                     6.5600   (summation:     6.5600)
+  SSPE (pure error)                  6.5600
+  SSLOF (lack of fit)               -0.0000
+  df_PE = 9,  df_LOF = 0,  df_SSE = 9
+
+=== (e) Source of Error & Pure Error ===
+  In this {3,2} simplex lattice design, there are 6 unique design points
+  and 6 model parameters (b1...b23). The model therefore perfectly fits
+  the mean response at each unique design point.
+
+  The ONLY residual variation comes from REPLICATE observations at the
+  same composition settings. This error is called "PURE ERROR" because:
+   - It reflects genuine experimental variability (measurement noise,
+     batch-to-batch variation, etc.) at fixed predictor settings.
+   - It is NOT confounded with any systematic lack-of-fit of the model.
+   - In this saturated design: SSE = SSPE (all residual is pure error).
+  This is why SSLOF ~= 0 above.
+=== (g) Variance-Covariance Matrix ===
+  s^2 (pure error MS) = 0.728889   (sigma_hat = 0.8537)
+  Note: given sigma_hat = 0.85 => sigma^2 = 0.7225
+
+  Var-Cov Matrix = s^2 * (X'X)^{-1}:
+         0.364444444444445                         0       1.2473814151659e-17        -0.728888888888889        -0.728888888888889                         0
+                         0         0.364444444444445     -4.44643331858789e-18        -0.728888888888889      -5.7802087631278e-18        -0.728888888888889
+       1.2473814151659e-17     -4.44643331858789e-18         0.364444444444445                         0         -0.72888888888889        -0.728888888888889
+        -0.728888888888889        -0.728888888888889                         0          6.80296296296297          1.45777777777778          1.45777777777778
+        -0.728888888888889      -5.7802087631278e-18         -0.72888888888889          1.45777777777778          6.80296296296297          1.45777777777778
+                         0        -0.728888888888889        -0.728888888888889          1.45777777777778          1.45777777777778          6.80296296296297
+
+=== (h) Model Fit Statistics ===
+  R^2          = 0.951356
+  Adj R^2      = 0.924331
+  PRESS        = 18.2950
+  R^2_PRESS    = 0.864337
+
+  Predicted vs Observed:
+  Obs   Y        Y_hat    Residual
+  1     11.00    11.7000  -0.7000 
+  2     12.40    11.7000  0.7000  
+  3     15.00    15.3000  -0.3000 
+  4     14.80    15.3000  -0.5000 
+  5     16.10    15.3000  0.8000  
+  6     8.80     9.4000   -0.6000 
+  7     10.00    9.4000   0.6000  
+  8     10.00    10.5000  -0.5000 
+  9     9.70     10.5000  -0.8000 
+  10    11.80    10.5000  1.3000  
+  11    16.80    16.4000  0.4000  
+  12    16.00    16.4000  -0.4000 
+  13    17.70    16.9000  0.8000  
+  14    16.40    16.9000  -0.5000 
+  15    16.60    16.9000  -0.3000 
+
+=== (i) Maximize Yarn Elongation ===
+  Optimal composition for MAXIMUM elongation:
+    x1 (polyethylene)   = 0.293860
+    x2 (polystyrene)    = 0.000000
+    x3 (polypropylene)  = 0.706140
+    Max predicted elongation = 17.3844 kg
+
+=== (j) Minimize Yarn Elongation ===
+  Optimal composition for MINIMUM elongation:
+    x1 (polyethylene)   = 0.000000
+    x2 (polystyrene)    = 0.864583
+    x3 (polypropylene)  = 0.135417
+    Min predicted elongation = 9.2240 kg
+
+=== (k) Validation ===
+  Compare the above results with JMP/Minitab/Polymath.
+  Known sigma_hat from replicates = 0.85 kg (given in problem).
+  Check: sqrt(s2) = 0.8537  (from our pure error variance)
