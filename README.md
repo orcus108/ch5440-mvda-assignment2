@@ -6,29 +6,17 @@ MATLAB implementation of multivariate regression methods for CH5440 (Multivariat
 
 | Script | Topic |
 |--------|-------|
-| `scripts/question1.m` | Quadratic polynomial regression (power cell data) |
-| `scripts/question2.m` | Mixture regression — Scheffe model (yarn elongation) |
-| `scripts/question3.m` | Logistic regression (hiring decisions) |
-| `scripts/question4.m` | Logistic regression (chocolate purchases) |
-| `scripts/question5.m` | Binomial MLE — coupon redemption (grouped) |
-| `scripts/question6.m` | Bernoulli MLE — coupon redemption (ungrouped) |
-| `scripts/question7.m` | Multivariate logistic regression (dengue disease) |
+| [question1.m](scripts/question1.m) | Quadratic polynomial regression (power cell data) |
+| [question2.m](scripts/question2.m) | Mixture regression — Scheffe model (yarn elongation) |
+| [question3.m](scripts/question3.m) | Logistic regression (hiring decisions) |
+| [question4.m](scripts/question4.m) | Logistic regression (chocolate purchases) |
+| [question5.m](scripts/question5.m) | Binomial MLE — coupon redemption (grouped) |
+| [question6.m](scripts/question6.m) | Bernoulli MLE — coupon redemption (ungrouped) |
+| [question7.m](scripts/question7.m) | Multivariate logistic regression (dengue disease) |
 
-## Running
+## Report
 
-Open MATLAB, navigate to the repo root, and run:
-
-```matlab
->> cd scripts
->> question1
-```
-
-Or from terminal:
-```bash
-matlab -r "cd scripts; question1; exit"
-```
-
-Requires the Statistics and Machine Learning Toolbox.
+[report.pdf](report/report.pdf)
 
 ## Structure
 
